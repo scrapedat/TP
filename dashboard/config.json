@@ -1,0 +1,7 @@
+{
+  "ollama_models_path": "../models/",
+  "default_model": "GPToss:20b",
+  "tool_scripts_dir": "./tools/",
+  "port": 3700,
+  "enable_wishlist": true
+}

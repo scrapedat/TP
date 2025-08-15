@@ -1,0 +1,6 @@
+{
+  "theme": "light",
+  "favorites": ["summarize_py"],
+  "pinned": ["summarize_py"],
+  "toolOrder": ["summarize_py", "analyze_js"]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "summarize_py",
+    "name": "Summarize Text",
+    "description": "Summarize a block of text using Python.",
+    "script": "./tools/summarize.py",
+    "type": "python",
+    "parameters": ["text"],
+    "isPinned": true,
+    "isFavorite": true,
+    "customLabel": "Summarizer"
+  },
+  {
+    "id": "analyze_js",
+    "name": "Keyword Analyzer",
+    "description": "Extract keywords using Node.js.",
+    "script": "./tools/analyze.js",
+    "type": "nodejs",
+    "parameters": ["text"],
+    "isPinned": false,
+    "isFavorite": false
+  }
+]

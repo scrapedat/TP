@@ -1,0 +1,10 @@
+[
+  {
+    "id": "default",
+    "name": "First User",
+    "preferences": {
+      "theme": "light"
+    },
+    "lastLogin": "2025-08-15T10:41:01Z"
+  }
+]

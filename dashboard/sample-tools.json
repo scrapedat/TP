@@ -1,0 +1,126 @@
+[
+  {
+    "id": "summarize_py",
+    "name": "Summarize Text",
+    "description": "Summarize a block of text using Python.",
+    "script": "./tools/summarize.py",
+    "type": "python",
+    "parameters": ["text"]
+  },
+  {
+    "id": "analyze_js",
+    "name": "Keyword Analyzer",
+    "description": "Extract keywords using Node.js.",
+    "script": "./tools/analyze.js",
+    "type": "nodejs",
+    "parameters": ["text"]
+  },
+  {
+    "id": "lobechat_agent",
+    "name": "LobeChat AI Agent",
+    "description": "Modern AI chat framework with multi-modal support, function calling, and Chain of Thought reasoning. Supports Ollama integration with knowledge base and MCP marketplace.",
+    "script": "./tools/lobechat-agent.py",
+    "type": "python",
+    "parameters": ["query", "model", "temperature"],
+    "features": ["chain_of_thought", "function_calling", "multi_modal", "knowledge_base", "ollama_integration"]
+  },
+  {
+    "id": "crewai_orchestrator",
+    "name": "CrewAI Multi-Agent Orchestrator",
+    "description": "Multi-agent framework for collaborative AI workflows. Enables multiple Ollama models to work together on complex tasks with role-based specialization.",
+    "script": "./tools/crewai-orchestrator.py",
+    "type": "python",
+    "parameters": ["task", "agents", "tools", "process"],
+    "features": ["multi_agent", "role_specialization", "task_delegation", "collaborative_workflow"]
+  },
+  {
+    "id": "autogen_swarm",
+    "name": "AutoGen Agent Swarm",
+    "description": "Microsoft's multi-agent conversation framework enabling autonomous agent collaboration with Ollama models for complex problem solving.",
+    "script": "./tools/autogen-swarm.py",
+    "type": "python",
+    "parameters": ["conversation_config", "agents", "max_rounds"],
+    "features": ["autonomous_agents", "conversation_flow", "code_execution", "human_in_loop"]
+  },
+  {
+    "id": "langchain_multi_agent",
+    "name": "LangChain Multi-Agent System",
+    "description": "Advanced agent orchestration using LangChain with Ollama models. Supports tool use, memory, and hierarchical agent structures.",
+    "script": "./tools/langchain-agents.py",
+    "type": "python",
+    "parameters": ["agent_type", "tools", "memory", "llm_config"],
+    "features": ["tool_integration", "persistent_memory", "hierarchical_agents", "custom_tools"]
+  },
+  {
+    "id": "semantic_kernel_planner",
+    "name": "Semantic Kernel AI Planner",
+    "description": "Microsoft's Semantic Kernel with planning capabilities for Ollama models. Creates and executes multi-step plans with skill orchestration.",
+    "script": "./tools/semantic-kernel-planner.py",
+    "type": "python",
+    "parameters": ["goal", "skills", "planner_type"],
+    "features": ["automatic_planning", "skill_composition", "goal_decomposition", "execution_monitoring"]
+  },
+  {
+    "id": "ollama_swarm_intelligence",
+    "name": "Ollama Swarm Intelligence",
+    "description": "Distributed intelligence system where multiple Ollama instances collaborate using consensus mechanisms and shared knowledge pools.",
+    "script": "./tools/ollama-swarm.py",
+    "type": "python",
+    "parameters": ["swarm_size", "consensus_method", "knowledge_sharing"],
+    "features": ["distributed_processing", "consensus_algorithms", "knowledge_synchronization", "fault_tolerance"]
+  },
+  {
+    "id": "agentic_rag_system",
+    "name": "Agentic RAG System",
+    "description": "Advanced Retrieval-Augmented Generation with agentic capabilities. Multiple specialized agents handle different aspects of information retrieval and synthesis.",
+    "script": "./tools/agentic-rag.py",
+    "type": "python",
+    "parameters": ["query", "knowledge_bases", "retrieval_strategy"],
+    "features": ["multi_source_retrieval", "agent_specialization", "dynamic_routing", "context_synthesis"]
+  },
+  {
+    "id": "hierarchical_task_network",
+    "name": "Hierarchical Task Network (HTN) Planner",
+    "description": "AI planning system that decomposes complex tasks into hierarchical subtasks, distributing work across multiple Ollama agents.",
+    "script": "./tools/htn-planner.py",
+    "type": "python",
+    "parameters": ["task_hierarchy", "methods", "operators"],
+    "features": ["task_decomposition", "hierarchical_planning", "method_selection", "operator_execution"]
+  },
+  {
+    "id": "multi_modal_fusion",
+    "name": "Multi-Modal Fusion Agent",
+    "description": "Combines text, image, and audio processing capabilities across multiple Ollama models with specialized fusion algorithms.",
+    "script": "./tools/multimodal-fusion.py",
+    "type": "python",
+    "parameters": ["input_modalities", "fusion_strategy", "output_format"],
+    "features": ["cross_modal_understanding", "fusion_algorithms", "modality_alignment", "unified_representation"]
+  },
+  {
+    "id": "adaptive_model_router",
+    "name": "Adaptive Model Router",
+    "description": "Intelligent routing system that dynamically selects the best Ollama model for specific tasks based on performance metrics and task characteristics.",
+    "script": "./tools/adaptive-router.py",
+    "type": "python",
+    "parameters": ["task_type", "performance_metrics", "model_pool"],
+    "features": ["dynamic_routing", "performance_monitoring", "load_balancing", "model_selection"]
+  },
+  {
+    "id": "collaborative_reasoning",
+    "name": "Collaborative Reasoning Engine",
+    "description": "Multi-agent system where different Ollama models contribute different reasoning perspectives, combining logical, creative, and analytical approaches.",
+    "script": "./tools/collaborative-reasoning.py",
+    "type": "python",
+    "parameters": ["reasoning_types", "consensus_method", "confidence_weighting"],
+    "features": ["perspective_diversity", "reasoning_synthesis", "confidence_scoring", "decision_fusion"]
+  },
+  {
+    "id": "meta_learning_coordinator",
+    "name": "Meta-Learning Coordinator",
+    "description": "Coordinates multiple Ollama models in a meta-learning setup, where agents learn to learn and adapt their strategies based on task performance.",
+    "script": "./tools/meta-learning.py",
+    "type": "python",
+    "parameters": ["learning_strategy", "adaptation_rate", "performance_feedback"],
+    "features": ["meta_learning", "strategy_adaptation", "performance_optimization", "continuous_improvement"]
+  }
+]

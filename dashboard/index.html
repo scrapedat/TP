@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ollama Tool Protocol Dashboard</title>
+  <style>
+    body { font-family: sans-serif; background: #fafbfc; padding: 2em; }
+    .tool-card { border: 1px solid #eee; border-radius: 8px; padding: 1em; margin: 1em 0; background: #fff; }
+    .tool-actions { float: right; }
+    .execute-btn { background: #36c; color: #fff; border: none; border-radius: 4px; padding: 0.5em 1em; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Ollama Tool Protocol Dashboard</h1>
+  <div id="tools"></div>
+  <script>
+    async function loadTools() {
+      const res = await fetch('/api/tools');
+      const tools = await res.json();
+      const root = document.getElementById('tools');
+      root.innerHTML = '';
+      for (const tool of tools) {
+        const card = document.createElement('div');
+        card.className = 'tool-card';
+        card.innerHTML = `<strong>${tool.customLabel || tool.name}</strong>
+          <span class="tool-actions">
+            <button class="execute-btn" data-id="${tool.id}">Run</button>
+          </span>
+          <br><small>${tool.description}</small>
+          <pre id="output-${tool.id}"></pre>`;
+        root.appendChild(card);
+      }
+      document.querySelectorAll('.execute-btn').forEach(btn => {
+        btn.onclick = async () => {
+          const toolId = btn.getAttribute('data-id');
+          const input = prompt("Enter input text for the tool:");
+          const res = await fetch('/api/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ toolId, params: { text: input } })
+          });
+          const out = await res.json();
+          document.getElementById(`output-${toolId}`).textContent = JSON.stringify(out, null, 2);
+        };
+      });
+    }
+    loadTools();
+  </script>
+</body>
+</html>
