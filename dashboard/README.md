@@ -51,6 +51,8 @@ curl http://localhost:3700/api/tools
 
 # Should return your tool registry JSON
 ```
+## How-Tool.md 
+https://github.com/scrapedat/TP/tree/main/dashboard/how-tool.md
 
 ## 📁 Directory Structure
 
