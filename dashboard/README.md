@@ -1,76 +1,110 @@
-# Ollama Tool Protocol Dashboard
 
-A plug-and-play dashboard for managing, running, and customizing tools that integrate with Ollama models (e.g., GPToss:20b). This dashboard provides an interface for tool discovery, execution, customization, and wishlist management, all with a clean UI.
+ # Ollama Tool Protocol Dashboard
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
 
-## Directory Structure
+A plug-and-play dashboard for managing, running, and customizing tools that integrate with Ollama models. This dashboard provides a comprehensive interface for tool discovery, execution, customization, and workflow management with a clean, modern UI.
 
-(see OLLAMA-TP-DASHBOARD-STRUCTURE.md for full layout)
+## ✨ Features
 
----
+- 🔧 **Dynamic Tool Registry**: JSON-based tool discovery and configuration
+- 🚀 **Multi-Language Support**: Python, Node.js, and extensible architecture
+- 🎯 **Real-Time Execution**: Execute tools with live feedback and results
+- 🔗 **Ollama Integration**: Seamless integration with local Ollama models
+- 👥 **Multi-Agent Support**: CrewAI and Swarm intelligence tools included
+- 🎨 **Modern UI**: Clean, responsive dashboard with tool management
+- 📊 **Analytics**: Execution history and performance tracking
+- 🛠️ **Plugin Architecture**: Easy tool development and deployment
 
-## Quick Start
+## 🚀 Quick Start
 
-1. Place this structure in `~/.ollama/dashboard/`
-2. Run `npm install` inside `dashboard/`
-3. Run `node server.js`
-4. Open `index.html` for UI, or visit `http://localhost:3700/index.html` if serving statically
+### Prerequisites
+- Node.js 18+ 
+- Python 3.8+
+- Ollama running locally
+- Git (for cloning)
 
----
+### Installation
 
-## Adding or Editing Tools
+```bash
+# 1. Clone or create the dashboard structure
+mkdir -p ~/.ollama/dashboard
+cd ~/.ollama/dashboard
 
-- Drop Python or Node.js scripts in the `tools/` directory.
-- Add an entry for the tool in `tool-protocol-registry.json` similar to the samples provided.
+# 2. Install dependencies
+npm install express cors body-parser
 
----
+# 3. Start the server
+node server.js
 
-## Configuration
+# 4. Open the dashboard
+# Option A: Open index.html directly in browser
+# Option B: Visit http://localhost:3700 for served version
+```
 
-- **config.json**: Controls dashboard behavior and Ollama path.
-- **tool-protocol-registry.json**: All registered tools.
-- **ui-settings.json**: UI preferences, favorites, pins.
-- **users.json**: Optional user-specific state.
+### Verify Installation
+```bash
+# Test API endpoint
+curl http://localhost:3700/api/tools
 
----
-# Tool Development Guide
+# Should return your tool registry JSON
+```
 
-## Quick Reference
+## 📁 Directory Structure
 
-### Python Tool Template
+```
+~/.ollama/dashboard/
+├── index.html              # Main dashboard UI
+├── server.js               # Express API server
+├── package.json            # Node.js dependencies
+├── config.json             # Dashboard configuration
+├── tool-protocol-registry.json  # Tool definitions
+├── ui-settings.json        # UI preferences
+├── users.json              # User-specific settings
+├── tools/                  # Tool scripts directory
+│   ├── summarize.py        # Text summarization
+│   ├── analyze.js          # Keyword analysis
+│   ├── simple-crew.py      # Multi-agent orchestration
+│   ├── simple-swarm.py     # Swarm intelligence
+│   ├── ollama_client.py    # Shared Ollama client
+│   └── crewai-adapter.py   # CrewAI integration
+├── static/                 # Static assets
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── docs/                   # Documentation
+    ├── API.md
+    ├── TOOL-DEVELOPMENT.md
+    └── DEPLOYMENT.md
+```
+
+## 🛠️ Tool Development
+
+### Adding a New Tool
+
+1. **Create the script** in `tools/` directory:
+
 ```python
 #!/usr/bin/env python3
-"""
-Template for Ollama TP Dashboard tools
-"""
 import sys
 import json
-import os
 
 def main():
     try:
-        # Read JSON input from stdin
+        # Read input from stdin
         input_data = json.load(sys.stdin)
         
-        # Extract parameters
-        param1 = input_data.get("param1", "default_value")
-        param2 = input_data.get("param2", "")
-        
         # Your tool logic here
-        result = process_your_logic(param1, param2)
+        result = process_data(input_data)
         
-        # Always output JSON
+        # Output JSON result
         print(json.dumps({
             "success": True,
             "result": result,
-            "tool": "your_tool_name",
-            "metadata": {
-                "execution_time": "...",
-                "version": "1.0"
-            }
+            "tool": "your_tool_name"
         }))
-        
     except Exception as e:
         print(json.dumps({
             "success": False,
@@ -78,400 +112,205 @@ def main():
             "tool": "your_tool_name"
         }))
 
-def process_your_logic(param1, param2):
-    """Your main tool logic"""
-    # Implementation here
-    return {"processed": f"{param1} + {param2}"}
-
 if __name__ == "__main__":
     main()
 ```
 
-### Node.js Tool Template
-```javascript
-#!/usr/bin/env node
-/**
- * Template for Ollama TP Dashboard Node.js tools
- */
+2. **Register in tool-protocol-registry.json**:
 
-const fs = require('fs');
-
-function main() {
-    try {
-        // Read JSON input from stdin
-        const input = fs.readFileSync(0, 'utf-8');
-        const inputData = JSON.parse(input);
-        
-        // Extract parameters
-        const param1 = inputData.param1 || 'default_value';
-        const param2 = inputData.param2 || '';
-        
-        // Your tool logic here
-        const result = processYourLogic(param1, param2);
-        
-        // Always output JSON
-        console.log(JSON.stringify({
-            success: true,
-            result: result,
-            tool: 'your_tool_name',
-            metadata: {
-                execution_time: Date.now(),
-                version: '1.0'
-            }
-        }));
-        
-    } catch (error) {
-        console.log(JSON.stringify({
-            success: false,
-            error: error.message,
-            tool: 'your_tool_name'
-        }));
-    }
-}
-
-function processYourLogic(param1, param2) {
-    // Your main tool logic
-    return { processed: `${param1} + ${param2}` };
-}
-
-if (require.main === module) {
-    main();
-}
-```
-
-## Registry Entry Template
 ```json
 {
-  "id": "your_tool_unique_id",
-  "name": "Your Tool Display Name",
-  "description": "Clear description of what your tool does and when to use it",
+  "id": "your_tool_id",
+  "name": "Your Tool Name",
+  "description": "Description of what your tool does",
   "script": "./tools/your_tool.py",
   "type": "python",
   "parameters": ["param1", "param2"],
   "features": ["feature1", "feature2"],
   "dependencies": ["ollama_client"],
   "category": "analysis",
-  "tags": ["ai", "processing", "text"],
-  "version": "1.0.0",
-  "author": "Your Name",
-  "documentation": "./docs/your_tool.md"
+  "tags": ["ai", "processing"]
 }
 ```
 
-## Ollama Integration Examples
+3. **Test the tool**:
 
-### Using Ollama Client
-```python
-#!/usr/bin/env python3
-import sys
-import json
-import requests
-
-def call_ollama(prompt, model="llama2"):
-    """Call Ollama API"""
-    try:
-        response = requests.post(
-            "http://localhost:11434/api/generate",
-            json={
-                "model": model,
-                "prompt": prompt,
-                "stream": False
-            }
-        )
-        return response.json().get("response", "")
-    except Exception as e:
-        raise Exception(f"Ollama API error: {str(e)}")
-
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        
-        text = input_data.get("text", "")
-        model = input_data.get("model", "llama2")
-        task = input_data.get("task", "summarize")
-        
-        # Create prompt based on task
-        if task == "summarize":
-            prompt = f"Please summarize the following text:\n\n{text}"
-        elif task == "analyze":
-            prompt = f"Please analyze the key themes in:\n\n{text}"
-        else:
-            prompt = f"Please process this text for {task}:\n\n{text}"
-        
-        # Call Ollama
-        result = call_ollama(prompt, model)
-        
-        print(json.dumps({
-            "success": True,
-            "result": result,
-            "tool": "ollama_text_processor",
-            "model_used": model,
-            "task": task
-        }))
-        
-    except Exception as e:
-        print(json.dumps({
-            "success": False,
-            "error": str(e),
-            "tool": "ollama_text_processor"
-        }))
-
-if __name__ == "__main__":
-    main()
+```bash
+# Test via API
+curl -X POST http://localhost:3700/api/run \
+  -H "Content-Type: application/json" \
+  -d '{"toolId": "your_tool_id", "params": {"param1": "value1"}}'
 ```
 
-### Multi-Model Consensus Tool
-```python
-#!/usr/bin/env python3
-import sys
-import json
-import requests
-from collections import Counter
+### Tool Development Guidelines
 
-def query_models(prompt, models=["llama2", "mistral", "codellama"]):
-    """Query multiple models and return consensus"""
-    responses = []
-    
-    for model in models:
-        try:
-            response = requests.post(
-                "http://localhost:11434/api/generate",
-                json={"model": model, "prompt": prompt, "stream": False},
-                timeout=30
-            )
-            if response.status_code == 200:
-                result = response.json().get("response", "").strip()
-                responses.append({"model": model, "response": result})
-        except Exception as e:
-            responses.append({"model": model, "error": str(e)})
-    
-    return responses
+- **Input/Output**: Always use JSON for stdin/stdout communication
+- **Error Handling**: Include try-catch blocks and meaningful error messages
+- **Dependencies**: List all dependencies in the registry
+- **Documentation**: Add clear descriptions and parameter documentation
+- **Testing**: Test tools independently before registry integration
 
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        
-        prompt = input_data.get("prompt", "")
-        models = input_data.get("models", ["llama2", "mistral"])
-        consensus_method = input_data.get("consensus_method", "majority")
-        
-        if not prompt:
-            raise ValueError("Prompt is required")
-        
-        # Query all models
-        responses = query_models(prompt, models)
-        
-        # Analyze responses
-        successful_responses = [r for r in responses if "error" not in r]
-        
-        if not successful_responses:
-            raise Exception("All models failed to respond")
-        
-        # Simple consensus logic
-        if consensus_method == "majority":
-            # For now, just return all responses
-            consensus = {
-                "method": "all_responses",
-                "responses": successful_responses,
-                "confidence": len(successful_responses) / len(models)
-            }
-        else:
-            consensus = successful_responses[0]  # First successful response
-        
-        print(json.dumps({
-            "success": True,
-            "result": consensus,
-            "tool": "multi_model_consensus",
-            "models_queried": len(models),
-            "successful_responses": len(successful_responses)
-        }))
-        
-    except Exception as e:
-        print(json.dumps({
-            "success": False,
-            "error": str(e),
-            "tool": "multi_model_consensus"
-        }))
+## 🔧 Configuration
 
-if __name__ == "__main__":
-    main()
+### config.json
+```json
+{
+  "ollama": {
+    "base_url": "http://localhost:11434",
+    "default_model": "llama2"
+  },
+  "server": {
+    "port": 3700,
+    "cors_enabled": true
+  },
+  "tools": {
+    "timeout": 60000,
+    "max_buffer": "1MB",
+    "auto_discovery": true
+  }
+}
 ```
 
-## Advanced Patterns
-
-### Tool Chaining Support
-```python
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        
-        # Support chaining by accepting previous tool output
-        if "previous_result" in input_data:
-            # This tool can work with output from another tool
-            previous = input_data["previous_result"]
-            text = previous.get("result", input_data.get("text", ""))
-        else:
-            text = input_data.get("text", "")
-        
-        # Your processing logic
-        result = process_text(text)
-        
-        print(json.dumps({
-            "success": True,
-            "result": result,
-            "tool": "chainable_tool",
-            "chainable": True,  # Indicates this tool supports chaining
-            "output_format": "text"  # Helps next tool know what to expect
-        }))
-        
-    except Exception as e:
-        # Error handling...
+### ui-settings.json
+```json
+{
+  "theme": "light",
+  "favorites": ["simple_crew", "summarize_py"],
+  "pinned_tools": ["ollama_client"],
+  "dashboard_layout": "grid",
+  "show_advanced": false
+}
 ```
 
-### Configuration-Driven Tools
-```python
-def load_tool_config():
-    """Load tool-specific configuration"""
-    config_path = "./config/tool_config.json"
-    try:
-        with open(config_path, 'r') as f:
-            return json.load(f)
-    except:
-        return {
-            "default_model": "llama2",
-            "timeout": 30,
-            "max_retries": 3
-        }
+## 🚀 Advanced Usage
 
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        config = load_tool_config()
-        
-        # Use configuration
-        model = input_data.get("model", config["default_model"])
-        timeout = config["timeout"]
-        
-        # Tool logic with config...
+### Tool Chaining
+```javascript
+// Chain multiple tools together
+const pipeline = [
+  { toolId: "summarize_py", params: { text: "..." } },
+  { toolId: "analyze_js", params: { text: "{{previous.result}}" } }
+];
 ```
 
-## Testing Your Tools
-
-### Unit Testing Template
-```python
-#!/usr/bin/env python3
-"""
-Test your tool independently
-"""
-import json
-import subprocess
-import sys
-
-def test_tool(tool_script, test_input, expected_fields=None):
-    """Test a tool with given input"""
-    try:
-        # Run the tool
-        proc = subprocess.Popen(
-            ["python3", tool_script],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        
-        stdout, stderr = proc.communicate(input=json.dumps(test_input))
-        
-        if proc.returncode != 0:
-            print(f"Tool failed with error: {stderr}")
-            return False
-        
-        # Parse output
-        try:
-            result = json.loads(stdout)
-        except json.JSONDecodeError:
-            print(f"Tool output is not valid JSON: {stdout}")
-            return False
-        
-        # Check required fields
-        required_fields = ["success", "tool"]
-        if expected_fields:
-            required_fields.extend(expected_fields)
-        
-        for field in required_fields:
-            if field not in result:
-                print(f"Missing required field: {field}")
-                return False
-        
-        print(f"✓ Tool test passed: {result}")
-        return True
-        
-    except Exception as e:
-        print(f"Test failed with exception: {e}")
-        return False
-
-# Example test cases
-test_cases = [
-    {
-        "name": "Basic functionality",
-        "input": {"text": "Hello world", "param1": "test"},
-        "expected": ["result"]
-    },
-    {
-        "name": "Empty input handling",
-        "input": {},
-        "expected": ["result"]
-    },
-    {
-        "name": "Error handling",
-        "input": {"invalid": "data"},
-        "expected": []  # Should handle gracefully
-    }
-]
-
-if __name__ == "__main__":
-    tool_script = sys.argv[1] if len(sys.argv) > 1 else "your_tool.py"
-    
-    print(f"Testing tool: {tool_script}")
-    
-    for test_case in test_cases:
-        print(f"\nRunning test: {test_case['name']}")
-        success = test_tool(
-            tool_script, 
-            test_case["input"], 
-            test_case.get("expected")
-        )
-        if not success:
-            print(f"❌ Test failed: {test_case['name']}")
-            sys.exit(1)
-    
-    print("\n✅ All tests passed!")
+### Batch Execution
+```bash
+# Execute multiple tools
+curl -X POST http://localhost:3700/api/batch \
+  -H "Content-Type: application/json" \
+  -d '{"tools": [{"toolId": "tool1", "params": {}}, {"toolId": "tool2", "params": {}}]}'
 ```
 
-## Best Practices
+### Custom Workflows
+```json
+{
+  "workflow_id": "content_pipeline",
+  "name": "Content Analysis Pipeline",
+  "steps": [
+    {"tool": "web_scraper", "params": {"url": "{{input.url}}"}},
+    {"tool": "summarize_py", "params": {"text": "{{step1.content}}"}},
+    {"tool": "analyze_js", "params": {"text": "{{step2.summary}}"}}
+  ]
+}
+```
 
-1. **Always handle errors gracefully**
-2. **Use consistent JSON input/output format**
-3. **Include metadata in responses**
-4. **Make tools configurable when possible**
-5. **Support tool chaining where appropriate**
-6. **Test thoroughly with edge cases**
-7. **Document parameters clearly**
-8. **Follow naming conventions**
-9. **Include version information**
-10. **Make tools idempotent when possible**
+## 📚 Built-in Tools
 
-## Deployment Checklist
+| Tool | Type | Description | Parameters |
+|------|------|-------------|------------|
+| `summarize_py` | Python | Text summarization using AI | `text` |
+| `analyze_js` | Node.js | Keyword extraction and analysis | `text` |
+| `simple_crew` | Python | Multi-agent task orchestration | `task`, `agents`, `model` |
+| `simple_swarm` | Python | Distributed processing with consensus | `task`, `swarm_size`, `models` |
+| `ollama_client` | Python | Base Ollama API client | None (utility) |
+| `crewai_adapter` | Python | CrewAI framework integration | `task`, `agents_config` |
 
-- [ ] Tool script is executable
-- [ ] JSON input/output protocol implemented
-- [ ] Error handling included
-- [ ] Registry entry is complete
-- [ ] Dependencies are documented
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get involved:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-tool`
+3. **Add your tool** following our development guidelines
+4. **Test thoroughly** with various inputs and edge cases
+5. **Submit a pull request** with clear description
+
+### Tool Submission Checklist
+- [ ] Tool follows JSON input/output protocol
+- [ ] Proper error handling implemented
+- [ ] Registry entry is complete and accurate
 - [ ] Tool has been tested independently
-- [ ] Documentation is clear
-- [ ] Performance is acceptable
-- [ ] Security considerations addressed
-- [ ] Tool follows naming conventions
-## License
+- [ ] Documentation is clear and complete
+- [ ] Dependencies are properly listed
 
-Open Source. MIT License.
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Tool not found error**
+```bash
+# Verify tool is registered
+curl http://localhost:3700/api/tools | grep "your_tool_id"
+```
+
+**Python script errors**
+```bash
+# Test script independently
+echo '{"test": "data"}' | python3 tools/your_tool.py
+```
+
+**Node.js script errors**
+```bash
+# Test script independently  
+echo '{"test": "data"}' | node tools/your_tool.js
+```
+
+**Ollama connection issues**
+```bash
+# Verify Ollama is running
+curl http://localhost:11434/api/tags
+```
+
+## 📋 API Reference
+
+### GET /api/tools
+Returns all registered tools from the registry.
+
+### POST /api/run
+Execute a specific tool with parameters.
+```json
+{
+  "toolId": "string",
+  "params": { "key": "value" }
+}
+```
+
+### POST /api/batch
+Execute multiple tools in sequence.
+
+### GET /api/status
+System health check and statistics.
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Ollama](https://ollama.ai/) for the amazing local AI platform
+- [CrewAI](https://github.com/joaomdmoura/crewAI) for multi-agent frameworks
+- The open-source community for inspiration and tools
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/scrapedat/TP/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/scrapedat/TP/discussions)
+- **Documentation**: [Wiki](https://github.com/scrapedat/TP/wiki)
+
+---
+
+**Special Thanks to all unmentioned human and AI contributors GPTOSS, CLAUDE Sonnet, Claude Opus, and Gemini**
+ 
+ 
+# license 
+***Open Source. MIT License.***
