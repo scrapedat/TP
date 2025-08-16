@@ -65,11 +65,11 @@ def main():
         )
         
         # Create crew
-        crew = Crew(
-            agents=agents,
+        crew = Crew
+        agents=(agents)
             tasks=[task],
             verbose=True
-        )
+          
         
         # Execute
         result = crew.kickoff()
