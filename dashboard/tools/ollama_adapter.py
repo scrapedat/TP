@@ -17,10 +17,11 @@ def main():
         agents_config = input_data.get("agents", [])
         model = input_data.get("model", "llama2")
         
-        # Configure Ollama LLM
+        # Configure Ollama LLM - Updated for proper Ollama integration
         ollama_llm = LLM(
-            model=f"ollama/{model}",
-            base_url="http://localhost:11434"
+            model=model,  # Remove the "ollama/" prefix
+            base_url="http://localhost:11434",
+            api_base="http://localhost:11434"  # Some versions need this
         )
         
         # Create agents
@@ -35,7 +36,8 @@ def main():
                 goal=goal,
                 backstory=backstory,
                 llm=ollama_llm,
-                verbose=True
+                verbose=True,
+                allow_delegation=False  # Prevent delegation issues with Ollama
             )
             agents.append(agent)
         
@@ -43,16 +45,18 @@ def main():
         if not agents:
             researcher = Agent(
                 role="Researcher",
-                goal="Gather comprehensive information",
-                backstory="You are a thorough researcher with expertise in information gathering",
-                llm=ollama_llm
+                goal="Gather comprehensive information about the given topic",
+                backstory="You are a thorough researcher with expertise in information gathering and analysis",
+                llm=ollama_llm,
+                allow_delegation=False
             )
             
             writer = Agent(
-                role="Writer",
-                goal="Create clear and engaging content",
-                backstory="You are a skilled writer who can synthesize information into compelling content",
-                llm=ollama_llm
+                role="Writer", 
+                goal="Create clear and engaging content based on research",
+                backstory="You are a skilled writer who can synthesize information into compelling, well-structured content",
+                llm=ollama_llm,
+                allow_delegation=False
             )
             
             agents = [researcher, writer]
@@ -82,7 +86,8 @@ def main():
             "crew_info": {
                 "total_agents": len(agents),
                 "model_used": model,
-                "framework": "CrewAI"
+                "framework": "CrewAI",
+                "llm_base_url": "http://localhost:11434"
             }
         }))
         
@@ -90,7 +95,7 @@ def main():
         print(json.dumps({
             "success": False,
             "error": f"CrewAI not available: {str(e)}",
-            "fallback": "Use simple-crew.py instead",
+            "fallback": "Install CrewAI with: pip install crewai",
             "tool": "crewai_adapter"
         }))
         

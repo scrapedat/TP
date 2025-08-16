@@ -1,364 +1,317 @@
-# TP
-Tool Protocol Dashboard - easy user interface for ollama tool calling - ollama and human interface to set tools, rules, tools rules, and rules for tools. 
-````markdown name=OLLAMA-TP-DASHBOARD-STRUCTURE.md
-# Ollama Tool Protocol Dashboard — Starter File Structure
 
-Copy this structure into your ~/.ollama/dashboard/ directory.  
-This is a minimal, working starter for a TP dashboard with sample tools.
+ # Ollama Tool Protocol Dashboard
 
-## Directory Layout
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
 
-```
-~/.ollama/
-├── models/
-│   └── GPToss:20b/
-│       ├── model.json
-│       └── tool-scripts/
-│           ├── summarize.py
-│           └── analyze.js
-└── dashboard/
-    ├── config.json
-    ├── tool-protocol-registry.json
-    ├── users.json
-    ├── ui-settings.json
-    ├── tools/
-    │   ├── summarize.py
-    │   └── analyze.js
-    ├── sample-tools.json
-    ├── package.json
-    ├── server.js
-    ├── index.html
-    └── README.md
-```
+A plug-and-play dashboard for managing, running, and customizing tools that integrate with Ollama models. This dashboard provides a comprehensive interface for tool discovery, execution, customization, and workflow management with a clean, modern UI.
 
-## Key Files
+## ✨ Features
 
-- **config.json** — Dashboard config, e.g. Ollama model path.
-- **tool-protocol-registry.json** — Registered tools (UI sees these).
-- **users.json** — (Optional) User data.
-- **ui-settings.json** — UI preferences (theme, favorites, pins).
-- **tools/** — Drop-in Node/Python tool scripts.
-- **sample-tools.json** — For UI or import.
-- **server.js** — Minimal Node API server for tool execution.
-- **package.json** — Node dependencies.
-- **index.html** — Minimal dashboard UI (works with server.js).
-- **README.md** — Quickstart & help.
+- 🔧 **Dynamic Tool Registry**: JSON-based tool discovery and configuration
+- 🚀 **Multi-Language Support**: Python, Node.js, and extensible architecture
+- 🎯 **Real-Time Execution**: Execute tools with live feedback and results
+- 🔗 **Ollama Integration**: Seamless integration with local Ollama models
+- 👥 **Multi-Agent Support**: CrewAI and Swarm intelligence tools included
+- 🎨 **Modern UI**: Clean, responsive dashboard with tool management
+- 📊 **Analytics**: Execution history and performance tracking
+- 🛠️ **Plugin Architecture**: Easy tool development and deployment
 
-## How to Use
+## 🚀 Quick Start
 
-1. Place this structure in `~/.ollama/dashboard/`
-2. Run `npm install` inside `dashboard/`
-3. Run `node server.js`
-4. Open `index.html` for UI, or visit `http://localhost:3700/index.html` if serving statically
-````
+### Prerequisites
+- Node.js 18+ 
+- Python 3.8+
+- Ollama running locally
+- Git (for cloning)
 
----
+### Installation
 
-```json name=dashboard/config.json
-{
-  "ollama_models_path": "../models/",
-  "default_model": "GPToss:20b",
-  "tool_scripts_dir": "./tools/",
-  "port": 3700,
-  "enable_wishlist": true
-}
+```bash
+# 1. Clone or create the dashboard structure
+mkdir -p ~/.ollama/dashboard
+cd ~/.ollama/dashboard
+
+# 2. Install dependencies
+npm install express cors body-parser
+
+# 3. Start the server
+node server.js
+
+# 4. Open the dashboard
+# Option A: Open index.html directly in browser
+# Option B: Visit http://localhost:3700 for served version
 ```
 
-```json name=dashboard/tool-protocol-registry.json
-[
-  {
-    "id": "summarize_py",
-    "name": "Summarize Text",
-    "description": "Summarize a block of text using Python.",
-    "script": "./tools/summarize.py",
-    "type": "python",
-    "parameters": ["text"],
-    "isPinned": true,
-    "isFavorite": true,
-    "customLabel": "Summarizer"
-  },
-  {
-    "id": "analyze_js",
-    "name": "Keyword Analyzer",
-    "description": "Extract keywords using Node.js.",
-    "script": "./tools/analyze.js",
-    "type": "nodejs",
-    "parameters": ["text"],
-    "isPinned": false,
-    "isFavorite": false
-  }
-]
+### Verify Installation
+```bash
+# Test API endpoint
+curl http://localhost:3700/api/tools
+
+# Should return your tool registry JSON
+```
+## How-Tool.md 
+https://github.com/scrapedat/TP/blob/main/dashboard/How-Tool.md
+## 📁 Directory Structure
+
+```
+~/.ollama/dashboard/
+├── index.html              # Main dashboard UI
+├── server.js               # Express API server
+├── package.json            # Node.js dependencies
+├── config.json             # Dashboard configuration
+├── tool-protocol-registry.json  # Tool definitions
+├── ui-settings.json        # UI preferences
+├── users.json              # User-specific settings
+├── tools/                  # Tool scripts directory
+│   ├── summarize.py        # Text summarization
+│   ├── analyze.js          # Keyword analysis
+│   ├── simple-crew.py      # Multi-agent orchestration
+│   ├── simple-swarm.py     # Swarm intelligence
+│   ├── ollama_client.py    # Shared Ollama client
+│   └── crewai-adapter.py   # CrewAI integration
+├── static/                 # Static assets
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── docs/                   # Documentation
+    ├── API.md
+    ├── TOOL-DEVELOPMENT.md
+    └── DEPLOYMENT.md
 ```
 
-```json name=dashboard/sample-tools.json
-[
-  {
-    "id": "summarize_py",
-    "name": "Summarize Text",
-    "description": "Summarize a block of text using Python.",
-    "script": "./tools/summarize.py",
-    "type": "python",
-    "parameters": ["text"]
-  },
-  {
-    "id": "analyze_js",
-    "name": "Keyword Analyzer",
-    "description": "Extract keywords using Node.js.",
-    "script": "./tools/analyze.js",
-    "type": "nodejs",
-    "parameters": ["text"]
-  }
-]
-```
+## 🛠️ Tool Development
 
-```json name=dashboard/ui-settings.json
-{
-  "theme": "light",
-  "favorites": ["summarize_py"],
-  "pinned": ["summarize_py"],
-  "toolOrder": ["summarize_py", "analyze_js"]
-}
-```
+### Adding a New Tool
 
-```json name=dashboard/users.json
-[
-  {
-    "id": "default",
-    "name": "First User",
-    "preferences": {
-      "theme": "light"
-    },
-    "lastLogin": "2025-08-15T10:41:01Z"
-  }
-]
-```
+1. **Create the script** in `tools/` directory:
 
-```python name=dashboard/tools/summarize.py
+```python
+#!/usr/bin/env python3
 import sys
 import json
 
-def summarize(text):
-    # Very basic: just returns the first sentence.
-    return text.split('.')[0] + '.'
+def main():
+    try:
+        # Read input from stdin
+        input_data = json.load(sys.stdin)
+        
+        # Your tool logic here
+        result = process_data(input_data)
+        
+        # Output JSON result
+        print(json.dumps({
+            "success": True,
+            "result": result,
+            "tool": "your_tool_name"
+        }))
+    except Exception as e:
+        print(json.dumps({
+            "success": False,
+            "error": str(e),
+            "tool": "your_tool_name"
+        }))
 
 if __name__ == "__main__":
-    try:
-        # Input from stdin as JSON
-        input_data = json.load(sys.stdin)
-        text = input_data.get("text", "")
-        summary = summarize(text)
-        print(json.dumps({"summary": summary}))
-    except Exception as e:
-        print(json.dumps({"error": str(e)}))
+    main()
 ```
 
-```javascript name=dashboard/tools/analyze.js
-const readline = require('readline');
+2. **Register in tool-protocol-registry.json**:
 
-function extractKeywords(text) {
-  // Simple: split by space, remove duplicates, sort by frequency
-  const words = text.toLowerCase().match(/\w+/g) || [];
-  const freq = {};
-  words.forEach(w => freq[w] = (freq[w] || 0) + 1);
-  return Object.entries(freq)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([word]) => word);
-}
-
-const rl = readline.createInterface({ input: process.stdin });
-let input = '';
-rl.on('line', line => input += line);
-rl.on('close', () => {
-  try {
-    const data = JSON.parse(input);
-    const text = data.text || '';
-    const keywords = extractKeywords(text);
-    console.log(JSON.stringify({ keywords }));
-  } catch (e) {
-    console.log(JSON.stringify({ error: e.toString() }));
-  }
-});
-```
-
-```json name=dashboard/package.json
+```json
 {
-  "name": "ollama-tp-dashboard",
-  "version": "1.0.0",
-  "description": "Ollama Tool Protocol Dashboard - plug-and-play tool runner for Ollama models",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
+  "id": "your_tool_id",
+  "name": "Your Tool Name",
+  "description": "Description of what your tool does",
+  "script": "./tools/your_tool.py",
+  "type": "python",
+  "parameters": ["param1", "param2"],
+  "features": ["feature1", "feature2"],
+  "dependencies": ["ollama_client"],
+  "category": "analysis",
+  "tags": ["ai", "processing"]
+}
+```
+
+3. **Test the tool**:
+
+```bash
+# Test via API
+curl -X POST http://localhost:3700/api/run \
+  -H "Content-Type: application/json" \
+  -d '{"toolId": "your_tool_id", "params": {"param1": "value1"}}'
+```
+
+### Tool Development Guidelines
+
+- **Input/Output**: Always use JSON for stdin/stdout communication
+- **Error Handling**: Include try-catch blocks and meaningful error messages
+- **Dependencies**: List all dependencies in the registry
+- **Documentation**: Add clear descriptions and parameter documentation
+- **Testing**: Test tools independently before registry integration
+
+## 🔧 Configuration
+
+### config.json
+```json
+{
+  "ollama": {
+    "base_url": "http://localhost:11434",
+    "default_model": "llama2"
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "body-parser": "^1.20.2"
+  "server": {
+    "port": 3700,
+    "cors_enabled": true
+  },
+  "tools": {
+    "timeout": 60000,
+    "max_buffer": "1MB",
+    "auto_discovery": true
   }
 }
 ```
 
-```javascript name=dashboard/server.js
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const { execFile } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-
-const registryPath = path.join(__dirname, 'tool-protocol-registry.json');
-const toolsDir = path.join(__dirname, 'tools');
-
-function loadRegistry() {
-  return JSON.parse(fs.readFileSync(registryPath));
+### ui-settings.json
+```json
+{
+  "theme": "light",
+  "favorites": ["simple_crew", "summarize_py"],
+  "pinned_tools": ["ollama_client"],
+  "dashboard_layout": "grid",
+  "show_advanced": false
 }
-
-app.get('/api/tools', (req, res) => {
-  res.json(loadRegistry());
-});
-
-app.post('/api/run', (req, res) => {
-  const { toolId, params } = req.body;
-  const registry = loadRegistry();
-  const tool = registry.find(t => t.id === toolId);
-  if (!tool) return res.status(404).json({ error: "Tool not found" });
-
-  const scriptPath = path.join(toolsDir, path.basename(tool.script));
-  if (tool.type === "python") {
-    const proc = execFile('python3', [scriptPath], { maxBuffer: 1024 * 1024 }, (err, stdout, stderr) => {
-      if (err) return res.status(500).json({ error: stderr || err.message });
-      try {
-        res.json(JSON.parse(stdout));
-      } catch {
-        res.status(500).json({ error: "Tool returned invalid JSON" });
-      }
-    });
-    proc.stdin.write(JSON.stringify(params));
-    proc.stdin.end();
-  } else if (tool.type === "nodejs") {
-    const proc = execFile('node', [scriptPath], { maxBuffer: 1024 * 1024 }, (err, stdout, stderr) => {
-      if (err) return res.status(500).json({ error: stderr || err.message });
-      try {
-        res.json(JSON.parse(stdout));
-      } catch {
-        res.status(500).json({ error: "Tool returned invalid JSON" });
-      }
-    });
-    proc.stdin.write(JSON.stringify(params));
-    proc.stdin.end();
-  } else {
-    res.status(400).json({ error: "Unknown tool type" });
-  }
-});
-
-app.listen(3700, () => {
-  console.log('Ollama TP Dashboard API running at http://localhost:3700');
-});
 ```
 
-```html name=dashboard/index.html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Ollama Tool Protocol Dashboard</title>
-  <style>
-    body { font-family: sans-serif; background: #fafbfc; padding: 2em; }
-    .tool-card { border: 1px solid #eee; border-radius: 8px; padding: 1em; margin: 1em 0; background: #fff; }
-    .tool-actions { float: right; }
-    .execute-btn { background: #36c; color: #fff; border: none; border-radius: 4px; padding: 0.5em 1em; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <h1>Ollama Tool Protocol Dashboard</h1>
-  <div id="tools"></div>
-  <script>
-    async function loadTools() {
-      const res = await fetch('/api/tools');
-      const tools = await res.json();
-      const root = document.getElementById('tools');
-      root.innerHTML = '';
-      for (const tool of tools) {
-        const card = document.createElement('div');
-        card.className = 'tool-card';
-        card.innerHTML = `<strong>${tool.customLabel || tool.name}</strong>
-          <span class="tool-actions">
-            <button class="execute-btn" data-id="${tool.id}">Run</button>
-          </span>
-          <br><small>${tool.description}</small>
-          <pre id="output-${tool.id}"></pre>`;
-        root.appendChild(card);
-      }
-      document.querySelectorAll('.execute-btn').forEach(btn => {
-        btn.onclick = async () => {
-          const toolId = btn.getAttribute('data-id');
-          const input = prompt("Enter input text for the tool:");
-          const res = await fetch('/api/run', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ toolId, params: { text: input } })
-          });
-          const out = await res.json();
-          document.getElementById(`output-${toolId}`).textContent = JSON.stringify(out, null, 2);
-        };
-      });
-    }
-    loadTools();
-  </script>
-</body>
-</html>
+## 🚀 Advanced Usage
+
+### Tool Chaining
+```javascript
+// Chain multiple tools together
+const pipeline = [
+  { toolId: "summarize_py", params: { text: "..." } },
+  { toolId: "analyze_js", params: { text: "{{previous.result}}" } }
+];
 ```
 
-````markdown name=dashboard/README.md
-# Ollama Tool Protocol Dashboard
-
-A plug-and-play dashboard for managing, running, and customizing tools that integrate with Ollama models (e.g., GPToss:20b). This dashboard provides an interface for tool discovery, execution, customization, and wishlist management, all with a clean UI.
-
----
-
-## Directory Structure
-
-(see OLLAMA-TP-DASHBOARD-STRUCTURE.md for full layout)
-
----
-
-## Quick Start
-
-1. Place this structure in `~/.ollama/dashboard/`
-2. Run `npm install` inside `dashboard/`
-3. Run `node server.js`
-4. Open `index.html` for UI, or visit `http://localhost:3700/index.html` if serving statically
-
----
-
-## Adding or Editing Tools
-
-- Drop Python or Node.js scripts in the `tools/` directory.
-- Add an entry for the tool in `tool-protocol-registry.json` similar to the samples provided.
-
----
-
-## Configuration
-
-- **config.json**: Controls dashboard behavior and Ollama path.
-- **tool-protocol-registry.json**: All registered tools.
-- **ui-settings.json**: UI preferences, favorites, pins.
-- **users.json**: Optional user-specific state.
-
----
-
-## License
-
-Open Source. MIT License.
-````
-
-```json name=dashboard/.gitignore
-node_modules/
-*.pyc
-.DS_Store
-.env
+### Batch Execution
+```bash
+# Execute multiple tools
+curl -X POST http://localhost:3700/api/batch \
+  -H "Content-Type: application/json" \
+  -d '{"tools": [{"toolId": "tool1", "params": {}}, {"toolId": "tool2", "params": {}}]}'
 ```
+
+### Custom Workflows
+```json
+{
+  "workflow_id": "content_pipeline",
+  "name": "Content Analysis Pipeline",
+  "steps": [
+    {"tool": "web_scraper", "params": {"url": "{{input.url}}"}},
+    {"tool": "summarize_py", "params": {"text": "{{step1.content}}"}},
+    {"tool": "analyze_js", "params": {"text": "{{step2.summary}}"}}
+  ]
+}
+```
+
+## 📚 Built-in Tools
+
+| Tool | Type | Description | Parameters |
+|------|------|-------------|------------|
+| `summarize_py` | Python | Text summarization using AI | `text` |
+| `analyze_js` | Node.js | Keyword extraction and analysis | `text` |
+| `simple_crew` | Python | Multi-agent task orchestration | `task`, `agents`, `model` |
+| `simple_swarm` | Python | Distributed processing with consensus | `task`, `swarm_size`, `models` |
+| `ollama_client` | Python | Base Ollama API client | None (utility) |
+| `crewai_adapter` | Python | CrewAI framework integration | `task`, `agents_config` |
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get involved:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-tool`
+3. **Add your tool** following our development guidelines
+4. **Test thoroughly** with various inputs and edge cases
+5. **Submit a pull request** with clear description
+
+### Tool Submission Checklist
+- [ ] Tool follows JSON input/output protocol
+- [ ] Proper error handling implemented
+- [ ] Registry entry is complete and accurate
+- [ ] Tool has been tested independently
+- [ ] Documentation is clear and complete
+- [ ] Dependencies are properly listed
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Tool not found error**
+```bash
+# Verify tool is registered
+curl http://localhost:3700/api/tools | grep "your_tool_id"
+```
+
+**Python script errors**
+```bash
+# Test script independently
+echo '{"test": "data"}' | python3 tools/your_tool.py
+```
+
+**Node.js script errors**
+```bash
+# Test script independently  
+echo '{"test": "data"}' | node tools/your_tool.js
+```
+
+**Ollama connection issues**
+```bash
+# Verify Ollama is running
+curl http://localhost:11434/api/tags
+```
+
+## 📋 API Reference
+
+### GET /api/tools
+Returns all registered tools from the registry.
+
+### POST /api/run
+Execute a specific tool with parameters.
+```json
+{
+  "toolId": "string",
+  "params": { "key": "value" }
+}
+```
+
+### POST /api/batch
+Execute multiple tools in sequence.
+
+### GET /api/status
+System health check and statistics.
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Ollama](https://ollama.ai/) for the amazing local AI platform
+- [CrewAI](https://github.com/joaomdmoura/crewAI) for multi-agent frameworks
+- The open-source community for inspiration and tools
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/scrapedat/TP/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/scrapedat/TP/discussions)
+- **Documentation**: [Wiki](https://github.com/scrapedat/TP/wiki)
+
+---
+
+**Special Thanks to all unmentioned human and AI contributors GPTOSS, CLAUDE Sonnet, Claude Opus, and Gemini**
+ 
+ 
+# license 
+***Open Source. MIT License.***

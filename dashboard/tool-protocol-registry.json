@@ -5,10 +5,7 @@
     "description": "Summarize a block of text using Python.",
     "script": "./tools/summarize.py",
     "type": "python",
-    "parameters": ["text"],
-    "isPinned": true,
-    "isFavorite": true,
-    "customLabel": "Summarizer"
+    "parameters": ["text"]
   },
   {
     "id": "analyze_js",
@@ -16,8 +13,36 @@
     "description": "Extract keywords using Node.js.",
     "script": "./tools/analyze.js",
     "type": "nodejs",
-    "parameters": ["text"],
-    "isPinned": false,
-    "isFavorite": false
+    "parameters": ["text"]
+  },
+  {
+    "id": "simple_crew",
+    "name": "Simple Multi-Agent Crew",
+    "description": "Lightweight multi-agent orchestration using Ollama. Agents work sequentially with role-based specialization.",
+    "script": "./tools/simple-crew.py",
+    "type": "python",
+    "parameters": ["task", "agents", "model"],
+    "features": ["multi_agent", "role_specialization", "sequential_workflow"],
+    "dependencies": ["ollama_client"]
+  },
+  {
+    "id": "simple_swarm",
+    "name": "Simple Swarm Intelligence",
+    "description": "Distributed processing across multiple Ollama models with consensus voting.",
+    "script": "./tools/simple-swarm.py",
+    "type": "python",
+    "parameters": ["task", "swarm_size", "models", "consensus_method"],
+    "features": ["distributed_processing", "consensus_voting", "model_diversity"],
+    "dependencies": ["ollama_client"]
+  },
+  {
+    "id": "ollama_client",
+    "name": "Ollama Client Base",
+    "description": "Shared Ollama client for all tools. Provides unified API access.",
+    "script": "./tools/ollama_client.py",
+    "type": "python",
+    "parameters": [],
+    "features": ["api_client", "error_handling", "model_management"],
+    "dependencies": []
   }
 ]
