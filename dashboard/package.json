@@ -1,14 +1,16 @@
-{
-  "name": "ollama-tp-dashboard",
-  "version": "1.0.0",
-  "description": "Ollama Tool Protocol Dashboard - plug-and-play tool runner for Ollama models",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "body-parser": "^1.20.2"
-  }
-}
+   {
+          "name": "data-dashboard",
+          "version": "1.0.0",
+          "description": "Local Data Dashboard",
+          "main": "main.js",
+          "scripts": {
+            "start": "electron .",
+            "build": "electron-builder"
+          },
+          "author": "Your Name",
+          "license": "ISC",
+          "devDependencies": {
+            "electron": "^latest",
+            "electron-builder": "^latest"
+          }
+        }
