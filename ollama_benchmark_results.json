@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-08-13 14:35:55",
+  "results": {
+    "moondream:latest": {
+      "tokens_per_second": 9.030269362856705,
+      "memory_usage_mb": 0.0,
+      "response_time_avg": 3.081645429134369,
+      "response_time_std": 1.993388883720781,
+      "success_rate": 0.8,
+      "error_count": 1,
+      "total_requests": 5
+    },
+    "llava:13b": {
+      "tokens_per_second": 0.0,
+      "memory_usage_mb": 0.0,
+      "response_time_avg": 0.0,
+      "response_time_std": 0.0,
+      "success_rate": 0.0,
+      "error_count": 5,
+      "total_requests": 5
+    },
+    "llava:7b": {
+      "tokens_per_second": 4.266762431036193,
+      "memory_usage_mb": -17.0,
+      "response_time_avg": 47.48422304789225,
+      "response_time_std": 13.617043138800291,
+      "success_rate": 0.6,
+      "error_count": 2,
+      "total_requests": 5
+    },
+    "qwen2.5:1.5b": {
+      "tokens_per_second": 13.796905296633067,
+      "memory_usage_mb": 0.0,
+      "response_time_avg": 30.768389344215393,
+      "response_time_std": 17.700193872684306,
+      "success_rate": 0.8,
+      "error_count": 1,
+      "total_requests": 5
+    },
+    "llama3.2:1b": {
+      "tokens_per_second": 15.498932536653005,
+      "memory_usage_mb": -1.5,
+      "response_time_avg": 29.16582751274109,
+      "response_time_std": 7.066095063992075,
+      "success_rate": 0.8,
+      "error_count": 1,
+      "total_requests": 5
+    }
+  },
+  "optimal_queue": [
+    "moondream:latest",
+    "llama3.2:1b",
+    "qwen2.5:1.5b",
+    "llava:7b"
+  ]
+}
